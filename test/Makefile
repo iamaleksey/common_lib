@@ -27,9 +27,9 @@ VPATH = conf:stubs
 all: log $(STUB_BEAMS) $(CONF) $(SPEC) test
 
 test:
-	cd $(TOP_DIR); $(MAKE) clean; $(MAKE) DEBUG_INFO='true'
-	$(MV) ../ebin/*.beam .
-	$(MV) ../ebin/*.app .
+	cd $(TOP_DIR); $(MAKE)
+	$(CP) ../ebin/*.beam .
+	$(CP) ../ebin/*.app .
 	$(RUN_TEST) -dir . -spec ./conf/test.spec -cover ./conf/cover.conf
 
 log:
