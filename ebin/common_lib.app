@@ -1,0 +1,30 @@
+{application, common_lib, [
+    {description, "Common Library"},
+    {vsn, "3.3.4"},
+    {modules, [
+        cl_application,
+        cl_binary,
+        cl_bin,
+        cl_calendar,
+        cl_consumer,
+        cl_csv,
+        cl_dqueue,
+        cl_lists,
+        cl_math,
+        cl_pool,
+        cl_queue,
+        cl_queue_srv,
+        cl_queue_tab,
+        cl_stats,
+        cl_string,
+        cl_timer,
+        cl_timer_srv,
+        cl_url,
+        common_lib,
+        common_lib_sup
+    ]},
+    {registered, [cl_timer_srv]},
+    {applications, [kernel, stdlib]},
+    {mod, {common_lib, []}},
+    {env, []}
+]}.
