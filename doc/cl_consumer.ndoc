@@ -1,0 +1,106 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote Peña enrique.marcote@nomasystems.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= BEHAVIOUR =
+
+This module implements the ``gen_server`` behaviour.
+
+
+= DESCRIPTION =
+
+A queue consumer pops elements from a priority queue and applies a function
+to it.  Elements are consumed at a given rate of requests per second (RPS).  The
+consumer keeps a constant pace and requests are evenly distributed in time.
+
+
+= START/STOP EXPORTS =
+
+Start/stop functions.
+
+
+== start_link(QueueSrv, Fun, Rps) -> Result ==
+
+: Types
+ : QueueSrv = pid()
+ : Fun = fun(Elem) -> void()
+ : Rps = int()
+
+
+Starts a new consumer for the queue controlled by ``QueueSrv``.  The consumer
+pops elements from the queue and applies ``Fun`` to them.  The rate at which
+elements are extracted from the queue is defined by ``Rps`` (number of requests
+per second).
+
+If ``Rps`` is 0 the consumer will be in pause state after the startup.
+
+
+== stop(Pid) -> ok ==
+
+: Types
+ : Pid = pid()
+
+
+Stops the consumer identified by ``Pid``.  The function return ``ok`` once
+the consumer is stopped.
+
+
+= RPS EXPORTS =
+
+Exported functions to manage RPS.
+
+
+== pause(Pid) -> ok ==
+
+: Types
+ : Pid = pid()
+
+
+Pauses the consumer.  While paused the consumer does not extract any elements
+from the queue.  This function returns ``ok`` after the consumer has been
+sucessfully paused.
+
+
+== resume(Pid) -> ok ==
+
+: Types
+ : Pid = pid()
+
+
+Resumes the execution on a paused consumer.  If the consumer is already running
+nothing happens.
+
+
+== rps(Pid) -> Rps ==
+
+: Types
+ : Pid = pid()
+ : Rps = int()
+
+
+Returns the currently configured number of requests per second.
+
+
+== rps(Pid, Rps) -> ok ==
+
+: Types
+ : Pid = pid()
+ : Rps = int()
+
+
+Sets the number of requests per second to ``Rps``.  If the consumer is paused
+it will not be resumed.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

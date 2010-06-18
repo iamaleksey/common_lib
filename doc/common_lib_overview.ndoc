@@ -1,0 +1,17 @@
+%APPLICATION%
+Overview
+Version: %VSN%
+
+Authors: [Enrique Marcote Peña enrique.marcote@erlang-consulting.com] [Miguel Rodríguez Rubinos miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULES =
+
+%MODULES%
+
+
+= DESCRIPTION =
+
+This library groups together some generic purporse modules.  It can be
+considered an extension to the stdlib.

@@ -1,0 +1,301 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodríguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+Common library string library.
+
+
+= EXTERNAL EXPORTS =
+
+Additional functions for string processing.
+
+
+== aequal(String1, Pattern) -> Result ==
+
+: Types
+ : String1 = string()
+ : Pattern = string()
+ : Result = true | approximate | false
+
+
+Approximate matching of strings.  Returns ``true`` if ``String1`` is equal to
+``Pattern`` allowing 1 error (substitution, insertion, deletion or
+transposition).
+
+```
+> cl_string:aequal("hello", "helo").
+approximate
+```
+
+
+== aequal(String, Pattern, Subs, Ins, Dels, Trans) -> Result ==
+
+: Types
+ : String = string()
+ : Pattern = string()
+ : Subs = int()
+ : Ins = int()
+ : Dels = int()
+ : Trans = int()
+ : Result = true | approximate | false
+
+
+Approximate matching of strings.  Returns ``true`` if ``String`` is equal to
+``Pattern`` allowing ``Subs`` substitution errors, ``Ins`` insertion errors,
+``Dels`` deletion errors and ``Trans`` transposition errors.
+
+
+== aiequal(String1, Pattern) -> Result ==
+
+: Types
+ : String1 = string()
+ : Pattern = string()
+ : Result = true | approximate | false
+
+
+Approximate matching of strings.  Case insensitive version of ``aequal/2``.
+Returns ``true`` if ``String1`` is equal to ``Pattern`` allowing 1 error
+(substitution, insertion, deletion or transposition).
+
+```
+> cl_string:aequal("heLLo", "helo").
+approximate
+```
+
+
+== aiequal(String, Pattern, Subs, Ins, Dels, Trans) -> Result ==
+
+: Types
+ : String = string()
+ : Pattern = string()
+ : Subs = int()
+ : Ins = int()
+ : Dels = int()
+ : Trans = int()
+ : Result = true | approximate | false
+
+
+Approximate matching of strings.  Case insensitive version of ``aequal/6``.
+Returns ``true`` if ``String`` is equal to ``Pattern`` allowing ``Subs``
+substitution errors, ``Ins`` insertion errors, ``Dels`` deletion errors and
+``Trans`` transposition errors.
+
+
+== chop_token(String, SeparatorList) -> {Token, RestOfString} ==
+
+: Types
+ : String = string()
+ : SeparatorList = string()
+ : Token = string()
+ : RestOfString = string()
+
+
+Gets the first token in ``String``, separated by the characters in
+``SeparatorList``.
+
+``RestOfString`` is left stripped, all leading characters in ``SeparatorList``
+are removed from it.
+
+
+== chop_tokens(String, N, SeparatorList) -> {Tokens, RestOfString} ==
+
+: Types
+ : String = string()
+ : SeparatorList = string()
+ : RestOfString = string()
+ : Tokens = [string()]
+ : N = int()
+
+
+Gets the first ``N`` tokens in ``String``, separated by the characters in
+``SeparatorList``.  If there are less than ``N`` tokens the tuple
+``{AvailableTokens, "" }`` is returned.
+
+
+== insert_every(String, Pos, Text) -> Result ==
+
+: Types
+ : String = string()
+ : Pos = int()
+ : Text = string()
+ : Result = string()
+
+
+Inserts ``Text`` every ``Pos`` positions in ``String``.  ``String`` with
+``Text`` inserted every ``Pos`` is returned.
+
+
+== is_dec(String) -> bool() ==
+
+: Types
+ : String = string()
+
+
+Checks if String is a sequence of decimal digits, every character
+belongs to [$0, $1, $2, $3, $4, $5, $6, $7, $8, $9].
+
+If ``String`` is empty, ``true`` is returned.
+
+
+== is_hex(String) -> bool() ==
+
+: Types
+ : String = string()
+
+
+Checks if String is a sequence of hexadecimal digits, every character
+belongs to [$0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $A, $B, $C, $D, $E, $F,
+$a, $b, $c, $d, $e, $f].
+
+If ``String`` is empty, ``true`` is returned.
+
+
+== is_atime(String) -> bool() ==
+
+: Types
+ : String = string()
+
+
+Checks if ``String`` is a representacion of an absolute time value, given in
+the format "YYMMDDhhmmsstnnp".  Where
+
+- YY: 00 - 99
+- MM: 01 - 12
+- DD: 01 - 31
+- hh: 00 - 23
+- mm: 00 - 59
+- ss: 00 - 59
+- t: 0 - 9
+- nn: 00 - 48
+- p: + | -
+
+
+If ``String`` is empty, ``true`` is returned.
+
+
+== is_rtime(String) -> bool() ==
+
+: Types
+ : String = string()
+
+
+Checks if ``String`` is a representacion of a relative time value, given in the
+format "YYMMDDhhmmsstnnp".  Where
+
+- YY: 00 - 99
+- MM: 01 - 12
+- DD: 01 - 31
+- hh: 00 - 23
+- mm: 00 - 59
+- ss: 00 - 59
+- t: 0
+- nn: 00
+- p: R
+
+
+If ``String`` is empty, ``true`` is returned.
+
+
+== normalize(String) -> NString ==
+
+: Types
+ : String  = string()
+ : NString = string()
+
+
+Returns a new ``NString`` where spaces are normalized.
+
+
+
+== pop_token(String, SeparatorList) -> {Token, RestOfString} ==
+
+: Types
+ : String = string()
+ : SeparatorList = string()
+ : Token = string()
+ : RestOfString = string()
+
+
+Gets the last token in ``String``, separated by the characters in
+``SeparatorList``.
+
+
+== pop_tokens(String, N, SeparatorList) -> {Tokens, RestOfString} ==
+
+: Types
+ : String = string()
+ : SeparatorList = string()
+ : RestOfString = string()
+ : Tokens = [string()]
+ : N = int()
+
+
+Gets the last ``N`` tokens in ``String``, separated by the characters in
+``SeparatorList``.  If there are less than ``N`` tokens the tuple
+``{AvailableTokens, "" }`` is returned.
+
+
+== replace_chars(String1, Characters, Char) -> String2 ==
+
+: Types
+ : String1 = string()
+ : String2 = string()
+ : Characters = string()
+ : Char = char()
+
+
+Replaces on ``String1`` every character in ``Characters`` list by ``Char``.
+
+```
+> replace_chars("hello_world.", "_.", $ ).
+"hello world "
+```
+
+
+== split_by_word(String, Number) -> {Prefix, Suffix} ==
+
+: Types
+ : String = string()
+ : Prefix = string()
+ : Suffix = string()
+ : Number = int()
+
+
+Splits a ``String`` into two parts by a given word. ``Prefix`` contains
+``Number`` words and ``Suffix`` the rest of the string.  Words are separated by
+blanks.
+
+``String == Prefix ++ Suffix``
+
+
+== strip(String, SeparatorList) -> Stripped ==
+
+== strip(String, Direction, SeparatorList) -> Stripped ==
+
+: Types
+ : String = string()
+ : Stripped = string()
+ : Direcction = left | right | both
+ : SeparatorList = string()
+
+
+Returns a string, where leading and/or trailling characters in ``SeparatorList``
+have been removed.  ``Direction`` can be ``left``, ``right`` or ``both`` and
+indicates from which direction characters are to be removed.  The function
+``strip/2`` is equivalent to ``strip(String, both, SeparatorList)``.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

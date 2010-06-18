@@ -1,0 +1,202 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodríguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+cl_queue is a library application to implement memory queues with priority.
+
+Elements are inserted with a priority.  Elements with higher priority are
+extracted first.  Priority 0 is the highest and decreases as the number
+increases.  There is not a predefined maximun value.
+
+
+= ARQUITECTURE =
+
+cl_queue is a data structure and no intermediate process is created.  The client
+application is responsible for creating a controlling process for the cl_queue
+if desired.  The module **cl_queue_srv** provides a generic queue controlling
+process.
+
+cl_queue is basically a lists of standard queues, one queue per priority.
+
+```
+         +------------+
+         |   queue    |
+         | priority 0 |
+         +------------+
+
+         +------------+
+         |   queue    |
+         | priority 1 |
+         +------------+
+
+              ...
+
+         +------------+
+         |   queue    |
+         | priority n |
+         +------------+
+```
+
+
+= DESIGN =
+
+cl_queue acts as a single queue with priorities.  First elements from the
+highest priority queue are extracted.  If no elements available on that queue,
+the queue with the next priority is selected, and so on.
+
+Homonymous functions in queue use the same return values than those in the
+standard **queue** module.
+
+
+= ORIGINAL EXPORTS =
+
+Exported functions.
+
+
+== in(Item, Q1) -> Q2 ==
+
+: Types
+ : Item = term()
+ : Q1 = Q2 = queue()
+
+
+Inserts an ``Item`` in the rear of ``Q1`` with the highest priority.  Returns
+the resulting ``Q2``
+
+
+== in(Item, Q1, Priority) -> Q2 ==
+
+: Types
+ : Item = term()
+ : Q1 = Q2 = queue()
+ : Priority = int()
+
+
+Inserts an ``Item`` in the rear of ``Q1`` with a given ``Priority``.  Returns
+the resulting ``Q2``
+
+This function fails if ``Priority`` is not an integer.
+
+
+== is_queue(Term) -> true | false ==
+
+: Types
+ : Term = term()
+
+
+Returns ``true`` if ``Term`` is a queue, ``false`` otherwise.
+
+
+== is_empty(Q) -> true | false ==
+
+: Types
+ : Q = queue()
+
+
+Returns ``true`` if ``Q`` is empty, ``false`` otherwise.
+
+
+== join(Q1, Q2) -> Q3 ==
+
+: Types
+ : Q1 = Q2 = Q3 = queue()
+
+
+Returns a queue ``Q3`` that is the result of joining ``Q1`` and ``Q2``  with
+``Q1`` in front of ``Q2``.
+
+
+== len(Q) -> N ==
+
+: Types
+ : Q = queue()
+ : N = int()
+
+
+Returns the length of the queue ``Q``
+
+
+== new() -> Q ==
+
+: Types
+ : Q = queue()
+
+
+Returns an emtpy queue.
+
+
+== out(Q1) -> Result ==
+
+: Types
+ : Q1 = Q2 = queue()
+ : Result = {{value, Item}, Q2} | {empty, Q1}
+
+
+Removes the item at the front of queue  ``Q1``.  Returns  the  tuple
+``{{value,  Item},  Q2}``,  where ``Item`` is the item removed and ``Q2`` is
+the resulting queue. If ``Q1`` is empty, the tuple  ``{empty,  Q1}``  is
+returned.
+
+The item at the front is the one at the front among those with the highest
+priority.
+
+
+== out_r(Q1) -> Result ==
+
+: Types
+ : Q1 = Q2 = queue()
+ : Result = {{value, Item}, Q2} | {empty, Q1}
+
+
+Removes the item at the rear of queue  ``Q1``.  Returns  the  tuple
+``{{value,  Item},  Q2}``,  where ``Item`` is the item removed and ``Q2`` is
+the resulting queue. If ``Q1`` is empty, the tuple  ``{empty,  Q1}``  is
+returned.
+
+The item at the rear is the one at the rear among those with the lowest
+priority.
+
+
+= EXTENDED EXPORTS =
+
+Extended API functions.
+
+
+== get(Q) -> Item ==
+
+: Types
+ : Q = queue()
+ : Item = term()
+
+
+Returns the ``Item`` at the front of queue  ``Q``.
+
+Fails with reason ``empty`` if ``Q`` is empty.
+
+
+== get_r(Q) -> Item ==
+
+: Types
+ : Q = queue()
+ : Item = term()
+
+
+Returns the ``Item`` at the rear of queue  ``Q``.
+
+Fails with reason ``empty`` if ``Q`` is empty.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

@@ -1,0 +1,8 @@
+{application, %APPLICATION%,
+ [{description, "Common Library"},
+  {vsn, "%VSN%"},
+  {modules, [%MODULES%]},
+  {registered, [cl_timer_srv]},
+  {applications, [kernel, stdlib]},
+  {mod, {%APPLICATION%, []}},
+  {env, []}]}.

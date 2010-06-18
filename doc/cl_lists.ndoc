@@ -1,0 +1,356 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodríguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+Lists Library.
+
+
+= EXTERNAL EXPORTS =
+
+Lists exports.
+
+
+== asearch(APred, List) -> Result ==
+
+: Types
+ : APred = fun(X) -> true | approximate | false
+ : List = [term()]
+ : Result = {value, Element} | false
+ : Element = term()
+
+
+Gets the first ``Element`` on the ``List`` where ``APred(Element) /= false``.
+
+``APred`` is an ``approximate`` predicate that returns ``true``, ``false``
+or ``approximate``.
+
+If matching is ambiguous, there is more than one element on the list where the
+approximate-predicate returns ``approximate``, ``false`` is returned.  This
+behaviour may be changed in the future returning the atom ``ambiguous`` is such
+circumstances.
+
+
+== count(Elem, List) -> int() ==
+
+: Types
+ : Elem = term()
+ : List = [term()]
+
+
+Returns the number of times ``Elem`` appears in ``List``.
+
+
+== cut(List, Index) -> {Prefix, Suffix} ==
+
+: Types
+ : List = [term()]
+ : Index = int()
+ : Prefix = [term()]
+ : Suffix = [term()]
+
+
+Cuts a List by an Index into two sublists.  ``Prefix ++ Suffix == List``.
+
+
+```
+> my_lists:cut([a, b, c, d, e], 3).
+{[a, b, c], [d, e]}
+```
+
+
+== delete(Element, N, TupleList1) -> TupleList2 ==
+
+: Types
+ : Element = term()
+ : N = int()
+ : TupleList1 = [tuple()]
+ : TupleList2 = [tuple()]
+
+
+Returns a copy of ``TupleList1`` where the all the occurrences of a tuple whose
+``N`` th element is ``Element`` is deleted, if present.
+
+
+== first(Pred, List) -> Element ==
+
+: Types
+ : List = [Element]
+ : Element = term()
+
+
+Gets the first ``Element`` of ``List`` where ``Pred`` is ``true``.  This
+function fails if no element on ``List`` satisfies ``Pred``.
+
+
+== has_duplicates(List) -> bool() ==
+
+: Types
+ : List = term()
+
+
+Determines if a list has duplicates or not.
+
+
+== hexlist_to_intlist(HexList) -> IntList ==
+
+: Types
+ : HexList = [Hex]
+ : Hex = int()
+ : IntList = [int()]
+
+
+Creates an integer list from an hex string. Where ``Hex`` is
+``$1|$2|$3|$4|$5|$6|$7|$8|$9|$A|$B|$C|$D|$E|$F``
+
+
+== index(Elem, List) -> Index ==
+
+: Types
+ : Elem = term()
+ : List = [term()]
+ : Index = int()
+
+
+Returns the first ``Index`` where ``Elem`` ocurrs on ``List``.  The functions
+fails if ``Elem`` is not a member of ``List``.
+
+
+== intersec(List1, List2) -> List3 ==
+
+: Types
+ : List1 = [term()]
+ : List2 = [term()]
+ : List3 = [term()]
+
+
+Returns the intersection of two lists.  ``List3`` contains all elements in
+``List1`` which also belong to ``List2``.
+
+
+== intlist_to_hexlist(IntList) -> HexList ==
+
+: Types
+ : IntList = [int()]
+ : HexList = [Hex]
+ : Hex = int()
+
+
+Creates an hex string from an integer list.  Where ``Hex`` is
+``$1|$2|$3|$4|$5|$6|$7|$8|$9|$A|$B|$C|$D|$E|$F``
+
+
+== is_deep(List) -> bool() ==
+
+: Types
+ : List = [Element]
+ : Element = term()
+
+
+Returns ``true`` if ``List`` is a deep list, ``false`` otherwise.
+
+
+== keyextract(Key, N, TupleList) -> {Element, TupleList2} ==
+
+: Types
+ : Key = term()
+ : N = int()
+ : TupleList = [Tuple]
+ : Tuple = tuple()
+ : Element = term()
+ : TupleList2 = [Tuple]
+
+
+Extracts the first ``Element`` from ``TupleList`` whose
+Nth element is ``Key``.
+
+The functions fails if no element with such a ``Key`` exists on
+``TupleList``.
+
+``TupleList2`` preserves the order of ``TupleList1``
+
+
+== keyindex(Key, N, TupleList) -> Index ==
+
+: Types
+ : Key = term()
+ : N = int()
+ : TupleList = [Tuple]
+ : Tuple = tuple()
+ : Index = int()
+
+
+Gets the ``Index`` of the tuple on ``TupleList`` whose
+Nth element is ``Key``.
+
+The functions fails if no element with such a ``Key`` exists on
+``TupleList``.
+
+
+== random(Max, Length) -> List ==
+
+: Types
+ : Max    = int()
+ : Lenght = int()
+ : List   = [int()]
+
+
+Creates a list of random integers with ``Length`` elementes.
+
+Duplicates allowed, the values will be between 1 and ``Max`` (both included).
+
+
+== random_seq(Max, Length) -> List ==
+
+: Types
+ : Max    = int()
+ : Lenght = int()
+ : List   = [int()]
+
+
+Creates an ordered list of random integers with ``Length`` elements.
+
+No duplicates allowed, the values will be between 1 and ``Max`` (both included).
+
+
+== search(Pred, List) -> Result ==
+
+: Types
+ : Pred = fun(X) -> bool()
+ : List = [term()]
+ : Result = {value, Element} | false
+ : Element = term()
+
+
+Gets the first ``Element`` on the ``List`` where ``Pred(Element) == true``.
+
+
+== split(List, N) -> {List1, List2} ==
+
+: Types
+ : List = [Element]
+ : List1 = [Element]
+ : List2 = [Element]
+ : Element = term()
+ : N = int()
+
+
+Splits a ``List`` into two lists where ``List == List1 ++ List2`` and
+``length(List1) == N``.
+
+I couldn't find it, but I'm sure this function must already exist.
+
+
+== split2(List) -> Chunks ==
+
+: Types
+ : List = [term()]
+ : Chunks = [Chunk]
+
+
+Splits a ``List`` into two elements lists.
+
+```
+split2("2AF1B3") == ["2A", "F1", "B3"]
+```
+
+
+== splitwith(Pred, List) -> {List1, List2} ==
+
+: Types
+ : Pred = fun(X) -> bool()
+ : List  = [term()]
+ : List1 = [term()]
+ : List2 = [term()]
+
+
+Splits a ``List`` into two lists where elements on ``List1`` satisfy ``Pred``.
+``List2`` holds the elements for which ``Pred`` is ``false``.  Ordering is
+preserved.
+
+
+== to_integer(OctetList) -> int() ==
+
+: Types
+ : OctetList = [Octet]
+ : Octet     = char()
+
+
+Converts a list of octets to an integer.  Please notice the difference:
+
+```
+> my_lists:to_integer("100").
+3223600
+> list_to_integer("100").
+100
+> my_lists:to_integer("F").
+70
+> list_to_integer("F").
+=ERROR REPORT==== 21-Mar-2003::12:38:43 ===
+Error in process &lt;0.118.0&gt; with exit value: {badarg,
+[{erlang,list_to_integer,["F"]},{erl_eval,expr,3},{erl_eval,exprs,4},
+{shell,eval_loop,2}]}
+** exited: {badarg,[{erlang,list_to_integer,["F"]},
+                    {erl_eval,expr,3},
+                    {erl_eval,exprs,4},
+                    {shell,eval_loop,2}]} **
+```
+
+
+== to_number(List) -> Number ==
+
+: Types
+ : List   = string()
+ : Number = int() | float()
+
+
+Returns the ``Number``, integer or float, given the string representation.
+
+
+== ukeymerge(N, List1, List2) -> List3 ==
+
+: Types
+ : N = int()
+ : List1 = [tuple()]
+ : List2 = [tuple()]
+ : List3 = [tuple()]
+
+
+Returns the sorted list formed by merging ``List1`` and ``List2`` while
+removing consecutive elements with the same key.  The merge is performed on
+the ``N``th element of each tuple.  Both ``List1`` and ``List2`` must be
+key-sorted prior to evaluating this function; otherwise the result will be
+undefined.   When elements in the input lists have the same key, element from
+``List1`` are picked before elements from ``List2``  (this how I expected
+``lists:ukeymerge/3`` to work).
+
+```
+1> lists:ukeymerge(1, [{a, 1},{b, 1},{d, 1}], [{a, 2},{b, 2},{c, 2}]).
+[{a,1},{a,2},{b,1},{b,2},{c,2},{d,1}]
+2> my_lists:ukeymerge(1, [{a, 1},{b, 1},{d, 1}], [{a, 2},{b, 2},{c, 2}]).
+[{a,1},{b,1},{c,2},{d,1}]
+```
+
+
+== random_add(Max, Count, List1) -> List2 ==
+
+: Types
+
+
+Adds ``Count`` random elements to ``List1``.  Every added element will be
+smaller (or equal) than ``Max``.  Only NOT members of ``List1`` are to be added.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

@@ -1,0 +1,7 @@
+{paths, ["%TEST_DIR%/stubs"]}.
+{file, "%TEST_DIR%/test.dqueue"}.
+{min_operations, 1000}.
+{max_operations, 100000}.
+{max_size_diff, 1.01}.
+%{tpl_cases, []}.
+%{tp_cases, []}.

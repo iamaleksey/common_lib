@@ -1,0 +1,212 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodríguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+Dqueue is a library application to implement disk queues with priority.
+
+Elements are inserted with a priority.  Elements with higher priority are
+extracted first.  Priority 0 is the highest and decreases as the number
+increases.  There is not a predefined maximun value.
+
+
+= ARQUITECTURE =
+
+Dqueue is a data structure and no intermediate process is created.  The client
+application is responsible for creating a controlling process for the cl_dqueue
+if desired.
+
+Dqueue holds a queue for each priority.  A reference to the elements is stored
+on these queues.  The element itself is stored on a dets file.  When an element
+is extracted from the queue, the element is removed from the dets.
+
+When an element is added, an entry in the appropriated queue is created and
+the item is stored in the dets file.
+
+```
+         +------------+
+         |   queue    |---+
+         | priority 0 |   |
+         +------------+   |
+                          |
+         +------------+   |    +-------------------+
+         |   queue    |   +----|       Dets        |
+         | priority 1 |--------|                   |
+         +------------+   +----| (Element storage) |
+                          |    +-------------------+
+              ...         |
+                          |
+         +------------+   |
+         |   queue    |---+
+         | priority n |
+         +------------+
+```
+
+
+= DESIGN =
+
+Dqueue acts as a single queue with priorities.  First elements from the
+highest priority queue are extracted.  If no elements available on that queue,
+the queue with the next priority is selected, and so on.
+
+Homonymous functions in dqueue use the same return values than those in the
+standard **queue** module.
+
+
+= ORIGINAL EXPORTS =
+
+Exported API functions.
+
+== close(Q) -> ok ==
+
+: Types
+ : Q = dqueue()
+
+
+Closes ``Q``.
+
+
+== open(Filename) -> Result ==
+
+: Types
+ : Filename = string()
+ : Result = {ok, Q} | {error, Reason}
+ : Q = dqueue()
+
+
+Opens a new dqueue ``Q`` from a file.  The file ``Filename`` is created if it
+does not exist.  If exists and is a valid dqueue file, ``Q`` is
+initializated with the elements in ``Filename`` and the file is compacted.  If
+the file ``Filename`` exists but it is not a valid dqueue file, it will be
+erased and ``Q`` will be an empty dqueue.
+
+If there is a problem opening or creating the file, an error is returned.
+
+
+== in(Item, Q1) -> Q2 ==
+
+: Types
+ : Item = term()
+ : Q1 = Q2 = dqueue()
+
+
+Inserts an ``Item`` in the rear of ``Q1`` with the highest priority.  Returns
+the resulting ``Q2``
+
+
+== in(Item, Q1, Priority) -> Q2 ==
+
+: Types
+ : Item = term()
+ : Q1 = Q2 = dqueue()
+ : Priority = int()
+
+
+Inserts an ``Item`` in the rear of ``Q1`` with a given ``Priority``.  Returns
+the resulting ``Q2``
+
+This function fails if ``Priority`` is not an integer.
+
+
+== is_dqueue(Term) -> true | false ==
+
+: Types
+ : Term = term()
+
+
+Returns ``true`` if ``Term`` is a dqueue, ``false`` otherwise.
+
+
+== is_empty(Q) -> true | false ==
+
+: Types
+ : Q = dqueue()
+
+
+Returns ``true`` if ``Q`` is empty, ``false`` otherwise.
+
+
+== len(Q) -> N ==
+
+: Types
+ : Q = dqueue()
+ : N = int()
+
+
+Returns the length of the dqueue ``Q``
+
+
+== out(Q1) -> Result ==
+
+: Types
+ : Q1 = Q2 = dqueue()
+ : Result = {{value, Item}, Q2} | {empty, Q1}
+
+
+Removes the item at the front of queue  ``Q1``.  Returns  the  tuple
+``{{value,  Item},  Q2}``,  where ``Item`` is the item removed and ``Q2`` is
+the resulting queue. If ``Q1`` is empty, the tuple  ``{empty,  Q1}``  is
+returned.
+
+The item at the front is the one at the front among those with the highest
+priority.
+
+
+== out_r(Q1) -> Result ==
+
+: Types
+ : Q1 = Q2 = dqueue()
+ : Result = {{value, Item}, Q2} | {empty, Q1}
+
+
+Removes the item at the rear of queue  ``Q1``.  Returns  the  tuple
+``{{value,  Item},  Q2}``,  where ``Item`` is the item removed and ``Q2`` is
+the resulting queue. If ``Q1`` is empty, the tuple  ``{empty,  Q1}``  is
+returned.
+
+The item at the rear is the one at the rear among those with the lowest
+priority.
+
+
+= EXTENDED EXPORTS =
+
+Extended API functions.
+
+
+== get(Q) -> Item ==
+
+: Types
+ : Q = dqueue()
+ : Item = term()
+
+
+Returns the ``Item`` at the front of queue  ``Q``.
+
+Fails with reason ``empty`` if ``Q`` is empty.
+
+
+== get_r(Q) -> Item ==
+
+: Types
+ : Q = dqueue()
+ : Item = term()
+
+
+Returns the ``Item`` at the rear of queue  ``Q``.
+
+Fails with reason ``empty`` if ``Q`` is empty.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

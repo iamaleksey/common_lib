@@ -1,0 +1,58 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote Peña enrique.marcote@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+Some wrappers for the standard **application(3)** module.
+
+= EXPORTS =
+
+Exported functions.
+
+
+== get_env(Application, Key) -> Val ==
+
+== get_env(Application, Key, Fun) -> Val ==
+
+: Types
+ : Key = atom()
+ : Val = term()
+ : Fun = fun/1 -> bool()
+
+
+Returns the value of the configuration parameter ``Key`` for ``Application``.
+
+If the specified application is not loaded, or the configuration parameter
+does not exist the function throws the exception ``{undefined, Key}``.  If a
+validation ``Fun`` is provided evaluating ``Fun(Val)`` must return ``true``,
+otherwise the exception ``{invalid, {Key, Val}}`` is thrown.
+
+
+== get_env_opt(Application, Key) -> Val ==
+
+== get_env_opt(Application, Key, Fun) -> Val ==
+
+: Types
+ : Key = atom()
+ : Val = term()
+ : Fun = fun/1 -> bool()
+
+
+Same that ``get_env/2`` and ``get_env/3`` but instead of throwing an
+exception if the parameter does not exit, the atom ``undefined`` is
+returned.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

@@ -1,0 +1,39 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodríguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+Statistics library.
+
+
+= EXTERNAL EXPORTS =
+
+Functions for statistics.
+
+
+== combinations(M, N) -> R ==
+
+: Types
+ : M = int()
+ : N = int()
+ : R = error | int()
+
+
+Computes the combinations of ``M`` elements taken by ``N`` without repetitions.
+
+This functions exits if ``(M &lt; 0)``, ``(N &lt; 0)`` or ``(M &lt; N)``.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

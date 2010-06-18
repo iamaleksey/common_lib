@@ -1,0 +1,216 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodríguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+Some calendar funtions.
+
+
+= EXPORTS =
+
+Exported functions.
+
+
+== day() -> int() ==
+
+Returns the day number on current year for today.
+
+
+== day(Date) -> int() ==
+
+: Types
+ : Date  = {Year, Month, Day}
+ : Year  = int()
+ : Month = int()
+ : Day   = int()
+
+
+Returns the day number on that ``Year`` for ``Date``.
+
+
+== day(Year, Month, Day) -> int() ==
+
+: Types
+ : Year  = int()
+ : Month = int()
+ : Day   = int()
+
+
+Returns the day number on that ``Year`` for the ``Day`` of ``Month``.
+
+
+== day_of_current_week_to_date(DayNumber) -> {Year, Month, Day} ==
+
+: Types
+ : DayNumber = int()
+ : Year      = int()
+ : Month     = int()
+ : Day       = int()
+
+
+Returns the date for a given day of current week.
+
+
+== day_of_next_week_to_date(DayNumber) -> {Year, Month, Day} ==
+
+: Types
+ : DayNumber = int()
+ : Year      = int()
+ : Month     = int()
+ : Day       = int()
+
+
+Returns the date for a given day of the next week.
+
+
+== format_day(Day) -> DayStr ==
+
+: Types
+ : Day = int()
+ : DayStr = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun"
+
+Returns a three char string for ``Day`` number.
+
+
+== format_month(Month) -> MonthStr ==
+
+: Types
+ : Month = int()
+ : MonthStr = "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" |
+              "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec"
+
+
+Returns a three char string for ``Month`` number.
+
+
+== local_time() -> LocalTime ==
+
+: Types
+ : LocalTime = string()
+
+
+Returns the local time as string (Example: "20081010124327").
+
+
+== parse(Str) -> Result ==
+
+: Types
+ : Str = string()
+ : Result = Date | Datetime
+ : Date = {Year, Month, Day}
+ : Datetime = {Date, Time}
+ : Time = {Hour, Min, Sec}
+
+
+Parses ``Str`` and returns the ``Date`` or ``Datetime``.  The expected format
+of ``Str`` is ``YYYY?MM?DD`` or ``YYYY?MM?DD?HH?MM?SS`` where ``?`` is any
+character in ``[$/, $-, $_, $:, $ ]``.
+
+
+== time_difference(Time1, Time2) -> Seconds ==
+
+: Types
+ : Time1 = Time2 = {Hour, Min, Sec}
+ : Hour = int() = 0..23
+ : Min = int() = 0..59
+ : Sec = int() = 0..59
+ : Seconds = int()
+
+
+Time difference between ``Time1`` and ``Time2`` in seconds.
+
+
+== tstamp() -> Tstamp ==
+
+: Types
+ : Tstamp = int()
+
+
+Seconds since January 1st 1970.
+
+
+== tstamp(Time) -> Tstamp ==
+
+: Types
+ : Time = {{Year, Month, Day}, {Hour, Min, Sec}}
+ : Year = int()
+ : Month = int()
+ : Day = int()
+ : Hour = int()
+ : Min = int()
+ : Sec = int()
+ : Tstamp = int()
+
+
+Seconds since January 1st 1970 until ``Time``
+
+
+== tstamp_to_local_time(Tstamp) -> Time ==
+
+: Types
+ : Tstamp = int()
+ : Time = {{Year, Month, Day}, {Hour, Min, Sec}}
+ : Year = int()
+ : Month = int()
+ : Day = int()
+ : Hour = int()
+ : Min = int()
+ : Sec = int()
+
+
+Converts a time stamp value to local time format.
+
+
+== valid_time(Time) -> bool() ==
+== valid_time(Hour, Min, Sec) -> bool() ==
+
+: Types
+ : Time = time()
+ : Hour = 0..23
+ : Min = Sec = 0..59
+
+
+This function checks if a time is a valid.
+
+
+== week() -> int() ==
+
+Returns the week number on current year for today.
+
+
+== week(Date) -> int() ==
+
+: Types
+ : Date  = {Year, Month, Day}
+ : Year  = int()
+ : Month = int()
+ : Day   = int()
+
+
+Returns the week number on that ``Year`` for ``Date``.
+
+
+== week(Year, Month, Day) -> int() ==
+
+: Types
+ : Year  = int()
+ : Month = int()
+ : Day   = int()
+
+
+Returns the week number on that ``Year`` for the ``Day`` of ``Month``.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

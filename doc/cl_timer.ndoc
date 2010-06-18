@@ -1,0 +1,88 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodríguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+Timer functions.
+
+
+= UTILITY EXPORTS =
+
+Timer utilities exports.
+
+
+== tc_avg(Mod, Fun, Args, Times) -> Result ==
+
+: Types
+ : Mod = atom()
+ : Fun = atom()
+ : Args = term()
+ : Times = int() > 0
+ : Result = {Min, Max, Med, Avg}
+ : Min = int()
+ : Max = int()
+ : Med = int()
+ : Avg = int()
+
+
+Evaluates ``apply(Mod, Fun, Args)``  ``Times`` times and returns the minimun,
+maximun, median and average excution times.
+
+
+== then(TimeLapse) -> {MegaSecs, Secs, MicroSecs} ==
+
+: Types
+ : TimeLapse = int()
+ : MegaSecs = int()
+ : Secs = int()
+ : MicroSecs = int()
+
+This function adds ``TimeLapse`` microseconds to the result of the BIF
+``now/0``.
+
+
+= TIMER EXPORTS =
+
+These functions replace those in the standard **timer** module.
+
+
+== cancel(Ref) -> Time | false ==
+
+: Types
+ : Ref = ref()
+ : Time = int()
+
+
+Cancels a timer, where ``Ref``  was  returned by ``exit_after/2-3``.  If the
+timer is there  to be removed, the function returns the time in milliseconds
+left until the timer would have  expired, otherwise ``false``.
+
+
+== exit_after(Time, Reason) -> Ref ==
+== exit_after(Time, Pid, Reason) -> Ref ==
+
+: Types
+ : 0 <= Time <= 4294967295
+ : Pid = pid()
+ : Reason = term()
+ : Ref = ref()
+
+
+Sends and exit signal with reason ``Reason`` to ``Pid`` after ``Time``.  Returns
+the timer reference that can later be used by ``cancel/1``.  If ``Pid`` is
+unspecified ``self()`` is used.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

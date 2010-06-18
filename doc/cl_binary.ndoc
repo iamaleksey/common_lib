@@ -1,0 +1,163 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodriguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+Some binary funtions.
+
+
+= EXPORTS =
+
+== bits_on(Data) -> Bits ==
+
+: Types
+ : Data = binary()
+ : Bits = [int()]
+
+
+Returns a list with the indexes of bits with value 1 in ``Data``.
+
+```
+1> bits_on(<<2#01011101, 2#00110110>>).
+[2,4,5,6,8,11,12,14,15]
+```
+
+
+== bits_state(Data) -> Bits ==
+
+: Types
+ : Data = binary()
+ : Bits = [bool()]
+
+
+Returns a list of booleans. If the nth bit is 1, the nth element of the
+returned list will be ``true``, ``false`` if 0.
+
+
+```
+1> bits_on(&lt;&lt;2#01011101&gt;&gt;).
+[false,true,false,true,true,true,false,true]
+```
+
+
+== from_hexlist(HexList) -> Bin ==
+
+: Types
+ : HexList = [Hex]
+ : Bin = binary()
+ : Hex = int()
+
+
+Creates a binary from an hex list.  ``Hex`` is
+``$1|$2|$3|$4|$5|$6|$7|$8|$9|$A|$B|$C|$D|$E|$F``
+
+
+== incr_nth(Bin, Pos) -> NewBin ==
+
+== incr_nth(Bin, Pos, Unit) -> NewBin ==
+
+: Types
+ : Bin = binary()
+ : Pos = int()
+ : Unit = int()
+
+
+Increments the ``Unit`` bit integer in position ``Pos`` and returns the
+resulting binary.
+
+
+== negate(Binary) -> Result ==
+
+: Types
+ : Result = binary() | {error, Reason}
+ : Reason = term()
+
+
+Negates all bits in ``Binary``.
+
+
+== take_until(Binary, Pattern, Size) -> Result ==
+
+: Types
+ : Binary = bin()
+ : Pattern = bin()
+ : Size = int()
+ : Result = {ok, UntilPattern, Rest} | {error, {not_found, Pattern, UntilSize}}
+ : UntilPattern = bin()
+ : Rest = bin()
+ : Prefix = bin()
+
+
+Gets the leading octets of a ``Binary`` until ``Pattern`` is found or ``Size``
+octets are inspected.
+
+If found before ``Size`` bytes are consumed, a binary with the leading octets
+``UntilPattern`` is returned along the remainder of the binary.
+
+``Pattern`` is **not** included in the response, **nor** removed from
+``Binary``.
+
+If ``Pattern`` is not found within the first ``Size`` octets of ``Binary``, an
+error is reported, ``Pattern`` and the first ``Size`` bytes are returned as
+additional information.
+
+
+== to_hexlist(Bin) -> HexList ==
+
+: Types
+ : Bin = binary()
+ : HexList = [Hex]
+ : Hex = int()
+
+
+Creates an hex list from a binary.  ``Hex`` is
+``$1|$2|$3|$4|$5|$6|$7|$8|$9|$A|$B|$C|$D|$E|$F``
+
+
+== to_list(Bin, Unit) -> List ==
+
+: Types
+ : Bin = binary()
+ : Unit = int()
+ : List = [Val]
+ : Val = int()
+
+
+Creates an integer list from a binary.  Integers are ``Unit`` bits long.
+``to_list(Bin, 8)`` is equivalent to the BIF ``binary_to_list/1``.
+
+
+
+== sum(Bin) -> int() ==
+
+: Types
+ : Bin = binary()
+ : Val = int()
+
+
+Sums the elements of the binary
+
+
+== invert(Bin) -> binary() ==
+
+: Types
+ : Bin = binary()
+ : Val = int()
+
+
+Inverts the elements of the binary
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

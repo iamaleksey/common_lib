@@ -1,0 +1,82 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Nomasystems, S.L. info@nomasystems.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+Generic pool of items.  Items are returned in a round robbin fashion.
+
+Pool is a simple data structure and no intermediate process is created.  It was
+designed for a small number of items (less than 100).  Pool internally uses
+a ETS table to store the list of items and a reference counter to the next
+item.
+
+
+= EXTERNAL EXPORTS =
+
+Exported API functions.
+
+== add(Name, Item) -> ok ==
+
+: Types
+ : Name = atom()
+ : Item = term()
+
+
+Add an ``Item`` to the pool named ``Name``.
+
+
+== del(Name, Item) -> ok ==
+
+: Types
+ : Name = atom()
+ : Item = term()
+
+
+Deletes ``Item`` from the pool named ``Name``.  If ``Item`` does not exist,
+nothing happens.
+
+
+== items(Name) -> Items ==
+
+: Types
+ : Name = atom()
+ : Items = [Item]
+ : Item = term()
+
+
+Returns all the ``Items`` in the pool named ``Name``.
+
+
+== new(Name) -> ok ==
+
+: Types
+ : Name = atom()
+
+
+Creates a new empty pool named ``Name``.
+
+
+== next(Name) -> Item ==
+
+: Types
+ : Name = atom()
+ : Item = term()
+
+
+Returns the next ``Item`` of the pool named ``Name``.  This function throws
+the exception ``not_found`` if the pool is empty.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

@@ -1,0 +1,56 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodríguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+Like the math module but using degrees instead of radians.
+
+
+= EXTERNAL EXPORTS =
+
+Math functions.
+
+
+== cos(Degrees) -> Value ==
+
+: Types
+ : Degrees = int()
+ : Value = float()
+
+
+Computes the cosine of an angle given in ``Degrees``.
+
+
+== sin(Degrees) -> Value ==
+
+: Types
+ : Degrees = int()
+ : Value = float()
+
+
+Computes the sine of an angle given in ``Degrees``.
+
+
+== radians(Degrees) -> Radians ==
+
+: Types
+ : Degrees = int()
+ : Radians = float()
+
+
+Gets the ``Radians`` given a value in ``Degrees``.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

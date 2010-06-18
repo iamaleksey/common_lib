@@ -1,0 +1,74 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote Peña enrique.marcote@nomasystems.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+The queue table keeps a reference of queue servers and owners in the system.
+This table can be used to store the process ids of the queue servers, avoiding
+the need to store the queue server pid inside the owner's state.
+
+If either the queue server or the owner of the queue dies, the entry is
+removed from the table.
+
+
+= EXTERNAL EXPORTS =
+
+Exported functions.
+
+== delete() -> true ==
+== delete(Owner) -> true ==
+
+: Types
+ : QueueSrv = pid()
+ : Owner = pid()
+
+
+Deletes the entry of the queue server associatted to ``Owner``. If ``Owner`` is
+not specified, ``self()`` will be used.
+
+
+== insert(QueueSrv) -> true ==
+== insert(Owner, QueueSrv) -> true ==
+
+: Types
+ : QueueSrv = pid()
+ : Owner = pid()
+
+
+Associattes the ``QueueSrv`` pid to ``Owner`` and stores the entry in the
+queue table.  If ``Owner`` is not specified, ``self()`` will be used.
+
+
+== lookup() -> QueueSrv | undefined ==
+== lookup(Owner) -> QueueSrv | undefined ==
+
+: Types
+ : QueueSrv = pid()
+ : Owner = pid()
+
+
+Returns the pid of the queue server associatted to ``Owner``.  If ``Owner`` is
+not specified ``self()`` will be used.  If there is no queue server in the
+table associatted to ``Owner``, the atom ``undefined`` is returned.
+
+
+== new() -> tid() ==
+
+
+Creates the queue table and returns the table identifier.  Only one queue
+table per node is permitted.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

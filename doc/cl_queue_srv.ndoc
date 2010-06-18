@@ -1,0 +1,170 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodriguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+The queue controller manages the access to a priority queue.  The queue can
+be a disk or memory queue.
+
+
+= START/STOP EXPORTS =
+
+Start/stop functions.
+
+
+== start_link() -> Result ==
+== start_link(Filename) -> Result ==
+
+: Types
+ : Filename = string()
+ : Result = {ok, Pid} | {error, Reason}
+ : Pid = pid()
+ : Reason = term()
+
+
+Starts the queue controller.  If the ``Filename`` is given the queue will be
+stored on disk, if not a memory queue will be used instead.  If an error ocurrs
+while opening the queue, the controller cannot be started and an error is
+returned.
+
+
+= QUEUE EXPORTS =
+
+Queue related functions.
+
+
+== in(Pid, Item, Priority) -> ok ==
+
+: Types
+ : Pid = pid()
+ : Item = term()
+ : Priority = int()
+
+
+Inserts an ``Item`` in the rear of the queue with priority ``Priority``.
+
+
+== len(Pid) -> Len ==
+
+: Types
+ : Pid = pid()
+ : Len = int()
+
+
+Returns the number of items in the queue.
+
+
+== out(Pid) -> Result ==
+== out(Pid, Num) -> Result ==
+
+: Types
+ : Pid = pid()
+ : Result = Items
+ : Items = [Item]
+ : Item = term()
+
+
+Removes ``Num`` items from the front of queue.  Returns  the  list of ``Items``
+removed.  If there are no enough items on the queue, ``Items`` may contain less
+elements than ``Num``.  If the queue is empty an empty list is returned.
+
+If ``Num`` is not specified, 1 item will be removed.
+
+The item in the front is the first item among those with the highest priority.
+
+
+== out_r(Pid) -> Result ==
+== out_r(Pid, Num) -> Result ==
+
+: Types
+ : Pid = pid()
+ : Result = Items
+ : Items = [Item]
+ : Item = term()
+
+
+Removes ``Num`` items from the rear of queue.  Returns  the  list of ``Items``
+removed.  If there are no enough items on the queue, ``Items`` may contain less
+elements than ``Num``.  If the queue is empty an empty list is returned.
+
+If ``Num`` is not specified, 1 item will be removed.
+
+The item at the rear is the last item among those with the lowest priority.
+
+
+= COUNT EXPORTS =
+
+Count functions.
+
+
+== count_in(Pid) -> Count ==
+
+: Types
+ : Pid = pid()
+ : Count = int()
+
+
+Returns the number of inserted items since the last ``reset/1`` call ar since
+the server was started.
+
+
+== count_out(Pid) -> Count ==
+
+: Types
+ : Pid = pid()
+ : Count = int()
+
+
+Returns the number of extracted items since the last ``reset/1`` call ar since
+the server was started (items extracted from the rear and front).
+
+
+== count_reset(Pid) -> ok ==
+
+: Types
+ : Pid = pid()
+
+
+Resets the in and out counters back to 0.
+
+
+= RPS EXPORTS =
+
+RPS (Request Per Second) functions.
+
+
+== rps(Pid) -> Rps ==
+
+: Types
+ : Pid = pid()
+ : Rps = int()
+
+
+Returns the actual number of requests per second.  This function counts the
+out requests during one second and returns the calculated value.
+
+
+== rps_avg(Pid) -> Rps ==
+
+: Types
+ : Pid = pid()
+ : Rps = int()
+
+
+Returns the average number of requests per second since the last count reset
+(see ``count_reset/1``).
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)

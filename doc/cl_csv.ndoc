@@ -1,0 +1,51 @@
+%%outfile(%F)
+%APPLICATION%
+Version: %VSN%
+
+Authors: [Enrique Marcote enrique.marcote@erlang-consulting.com] [Miguel Rodríguez miguel@erlang-consulting.com]
+
+%%toc
+
+= MODULE =
+
+%%outfile(%F)
+
+
+= DESCRIPTION =
+
+CSV processing tool.
+
+Utility tool to process CSV like files.  Initial code from
+[trapexit http://www.trapexit.org/] cookbook section.
+
+
+= EXTERNAL EXPORTS =
+
+Exported functions.
+
+
+== process_file(Filename, Fun) -> ok ==
+
+: Types
+ : Filename = string()
+ : Fun = fun()
+
+
+Applies ``Fun`` with every line in ``Filename``.  Every line is converted into
+a list of arguments and passed to ``Fun``.   The file ``Filename`` is unaltered.
+
+
+== read(String) -> Result ==
+
+: Types
+ :  String = string()
+ :  Result = ok | {error, Reason}
+ :  Reason = term()
+
+
+Converts a CSV string into a list of lists.
+
+
+= SEE ALSO =
+
+%APPLICATION%(1)
