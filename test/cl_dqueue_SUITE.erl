@@ -29,7 +29,7 @@
 -module(cl_dqueue_SUITE).
 
 %%% INCLUDE FILES
--include("ct.hrl").
+-include_lib("common_test/include/ct.hrl").
 -include_lib("kernel/include/file.hrl").
 
 %%% EXTERNAL EXPORTS

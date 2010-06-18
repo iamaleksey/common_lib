@@ -17,7 +17,7 @@
 -module('cl_pool_SUITE').
 
 %%% INCLUDE FILES
--include("ct.hrl").
+-include_lib("common_test/include/ct.hrl").
 
 %%% EXTERNAL EXPORTS
 -compile(export_all).
