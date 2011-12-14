@@ -28,6 +28,8 @@
 %%% POSSIBILITY OF SUCH DAMAGE.
 -module(cl_queue_tab).
 
+-compile({no_auto_import,[monitor/2]}).
+
 %%% EXTERNAL EXPORTS
 -export([delete/0, delete/1, insert/1, insert/2, lookup/0, lookup/1, new/0]).
 
