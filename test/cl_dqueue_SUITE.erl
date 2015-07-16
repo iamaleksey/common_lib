@@ -52,7 +52,7 @@ suite() ->
 
 init_per_suite(Config) ->
     lists:foreach(fun(X) -> code:add_path(X) end, ct:get_config(paths)),
-    {A1, A2, A3} = now(),
+    {A1, A2, A3} = erlang:timestamp(),
     random:seed(A1, A2, A3),
     start_dbg(),
     File = ct:get_config(file),
@@ -228,7 +228,7 @@ disk_usage() ->
     [{userdata, [{doc, "Tests that dqueue conforms with disk usage restrictions."}]}].
 
 disk_usage(Config) ->
-    {A1,A2,A3} = now(),
+    {A1,A2,A3} = erlang:timestamp(),
     random:seed(A1, A2, A3),
     Max = ?config(max_operations, Config),
     {ok, Q1} = cl_dqueue:open(?config(file, Config)),
@@ -267,7 +267,7 @@ disk_usage(Config) ->
 in(Q, 0) ->
     Q;
 in(Q, N) ->
-    in(cl_dqueue:in(now(), Q, random:uniform(10) - 1), N - 1).
+    in(cl_dqueue:in(erlang:timestamp(), Q, random:uniform(10) - 1), N - 1).
 
 
 in_out(Q, 0) ->
@@ -275,7 +275,7 @@ in_out(Q, 0) ->
 in_out(Q1, Times) ->
     case random:uniform(2) of
         1 ->
-            Q2 = cl_dqueue:in(now(), Q1, random:uniform(10) - 1),
+            Q2 = cl_dqueue:in(erlang:timestamp(), Q1, random:uniform(10) - 1),
             in_out(Q2, Times - 1);
         2 ->
             {_, Q2} = cl_dqueue:out(Q1),
