@@ -197,7 +197,7 @@ item_extract(Dets, Key) ->
 
 
 item_insert(Dets, Item, Priority) ->
-    Key = now(),
+    Key = erlang:unique_integer([positive, monotonic]),
     ok = dets:insert(Dets, {Key, Priority, Item}),
     Key.
 
@@ -205,4 +205,3 @@ item_insert(Dets, Item, Priority) ->
 item_lookup(Dets, Key) ->
     [{Key, _Priority, Item}] = dets:lookup(Dets, Key),
     Item.
-

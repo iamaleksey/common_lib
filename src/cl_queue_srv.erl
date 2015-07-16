@@ -51,7 +51,7 @@
 -export([code_change/3]).
 
 %%% RECORDS
--record(st, {parent, queue, in = 0, out = 0, start = now()}).
+-record(st, {parent, queue, in = 0, out = 0, start = erlang:timestamp()}).
 
 %%%-----------------------------------------------------------------------------
 %%% START/STOP EXPORTS
@@ -155,7 +155,7 @@ handle_call(count_in, _From, St) ->
 handle_call(count_out, _From, St) ->
     {reply, St#st.out, St};
 handle_call(rps_avg, _From, St) ->
-    Secs = timer:now_diff(now(), St#st.start) / 1000000,
+    Secs = timer:now_diff(erlang:timestamp(), St#st.start) / 1000000,
     {reply, round(St#st.out / Secs), St};
 handle_call(rps, From, St) ->
     _Ref = erlang:start_timer(1000, self(), {rps, From, St#st.out}),
@@ -165,7 +165,7 @@ handle_call(stop, _From, St) ->
 
 
 handle_cast(count_reset, St) ->
-    {noreply, St#st{in = 0, out = 0, start = now()}}.
+    {noreply, St#st{in = 0, out = 0, start = erlang:timestamp()}}.
 
 
 handle_info({timeout, _Ref, {rps, From, Out}}, St) ->

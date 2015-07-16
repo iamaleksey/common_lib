@@ -51,7 +51,7 @@ suite() ->
 
 init_per_suite(Config) ->
     lists:foreach(fun(X) -> code:add_path(X) end, ct:get_config(paths)),
-    {A1, A2, A3} = now(),
+    {A1, A2, A3} = erlang:timestamp(),
     random:seed(A1, A2, A3),
     start_dbg(),
     File = ct:get_config(file),
@@ -227,7 +227,7 @@ performance(Config) ->
 in(Q, 0) ->
     Q;
 in(Q, N) ->
-    in(cl_queue:in(now(), Q, random:uniform(10) - 1), N - 1).
+    in(cl_queue:in(erlang:timestamp(), Q, random:uniform(10) - 1), N - 1).
 
 
 in_out(Q, 0) ->
@@ -235,7 +235,7 @@ in_out(Q, 0) ->
 in_out(Q1, Times) ->
     case random:uniform(2) of
         1 ->
-            Q2 = cl_queue:in(now(), Q1, random:uniform(10) - 1),
+            Q2 = cl_queue:in(erlang:timestamp(), Q1, random:uniform(10) - 1),
             in_out(Q2, Times - 1);
         2 ->
             {_, Q2} = cl_queue:out(Q1),
