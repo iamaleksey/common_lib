@@ -1,6 +1,6 @@
 {application, common_lib, [
     {description, "Common Library"},
-    {vsn, "3.3.4"},
+    {vsn, "3.3.5"},
     {modules, [
         cl_application,
         cl_binary,
