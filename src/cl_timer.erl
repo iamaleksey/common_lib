@@ -38,9 +38,9 @@
 %%% UTILITY EXPORTS
 %%%-----------------------------------------------------------------------------
 tc(Fun) ->
-    Before = erlang:now(),
+    Before = os:timestamp(),
     Val = (catch Fun()),
-    After = erlang:now(),
+    After = os:timestamp(),
     {timer:now_diff(After, Before), Val}.
 
 
@@ -55,7 +55,7 @@ tc_avg(M, F, A, N) when N > 0 ->
 
 
 then(TimeLapse) ->
-    {MegaSecs, Secs, MicroSecs} = now(),
+    {MegaSecs, Secs, MicroSecs} = os:timestamp(),
     TotalMicroSecs = MicroSecs + TimeLapse,
     SecsIncr = TotalMicroSecs div 1000000,
     MicroSecsRest = TotalMicroSecs - (SecsIncr * 1000000),
@@ -66,7 +66,7 @@ then(TimeLapse) ->
 
 
 tstamp() ->
-    {A, B, C} = now(),
+    {A, B, C} = os:timestamp(),
     (((A * 1000000) * 1000) + (B * 1000) + (C div 1000)).
 
 %%%-----------------------------------------------------------------------------

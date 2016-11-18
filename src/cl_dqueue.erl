@@ -197,7 +197,7 @@ item_extract(Dets, Key) ->
 
 
 item_insert(Dets, Item, Priority) ->
-    Key = now(),
+    Key = os:timestamp(),
     ok = dets:insert(Dets, {Key, Priority, Item}),
     Key.
 
